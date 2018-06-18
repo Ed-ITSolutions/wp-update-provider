@@ -17,4 +17,4 @@ jobs:
         
       - run:
           name: Build
-          commnad: php ./.circle-ci/build.php
+          command: php ./.circle-ci/build.php
