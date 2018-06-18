@@ -27,7 +27,7 @@ foreach ($files as $name => $file){
     if(
       $dirs[0] !== '.git'
       &&
-      $dirs[0] !== '.circle-ci'
+      $dirs[0] !== '.circleci'
     ){
       $zip->addFile($filePath, $relativePath);
     }    
