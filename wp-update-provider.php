@@ -20,6 +20,8 @@ register_uninstall_hook(WP_PLUGIN_DIR . '/wp-update-provider/wp-update-provider.
 require_once plugin_dir_path(__FILE__) . 'lib/class.php';
 
 function wup_run_plugin(){
+	require('vendor/autoload.php');
+
 	$plugin = new WPUpdateProvider();
 	$plugin->run();
 }

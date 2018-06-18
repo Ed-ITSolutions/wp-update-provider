@@ -1,8 +1,6 @@
 <?php
 require_once('database.php');
 
-require_once('C:\Code\PHP\wup-client\wup-client.php');
-
 class WPUpdateProvider{
   public function run(){
     wup_run_migration();

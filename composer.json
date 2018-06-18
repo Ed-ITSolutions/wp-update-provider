@@ -1,0 +1,5 @@
+{
+    "require": {
+        "ed-itsolutions/wup-client": "dev-master"
+    }
+}

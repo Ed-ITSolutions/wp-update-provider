@@ -1,0 +1,42 @@
+[
+    {
+        "name": "ed-itsolutions/wup-client",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Ed-ITSolutions/wup-client.git",
+            "reference": "4ab08ab4b7a26374cc4d1db0d76b43337ec59803"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Ed-ITSolutions/wup-client/zipball/4ab08ab4b7a26374cc4d1db0d76b43337ec59803",
+            "reference": "4ab08ab4b7a26374cc4d1db0d76b43337ec59803",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.3.3 || ^7.0"
+        },
+        "time": "2018-06-18T09:56:00+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "files": [
+                "wup-client.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Adam Laycock",
+                "email": "adam@arcath.net",
+                "homepage": "https://arcath.net",
+                "role": "Developer"
+            }
+        ],
+        "description": "WordPress Update Provider client for use in plugins / themes."
+    }
+]
