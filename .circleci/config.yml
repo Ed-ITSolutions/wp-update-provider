@@ -16,5 +16,5 @@ jobs:
       - checkout
         
       - run:
-        name: Build
-        commnad: php ./.circle-ci/build.php
+          name: Build
+          commnad: php ./.circle-ci/build.php
