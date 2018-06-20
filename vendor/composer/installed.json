@@ -1,23 +1,23 @@
 [
     {
         "name": "ed-itsolutions/wup-client",
-        "version": "v0.0.1-alpha",
-        "version_normalized": "0.0.1.0-alpha",
+        "version": "v0.0.1-alpha2",
+        "version_normalized": "0.0.1.0-alpha2",
         "source": {
             "type": "git",
             "url": "https://github.com/Ed-ITSolutions/wup-client.git",
-            "reference": "90593995daaac70dfc4dd34d3c7daa21b7020504"
+            "reference": "2ed63c4e37b3428c1c0f7853ae7646708161ba1b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Ed-ITSolutions/wup-client/zipball/90593995daaac70dfc4dd34d3c7daa21b7020504",
-            "reference": "90593995daaac70dfc4dd34d3c7daa21b7020504",
+            "url": "https://api.github.com/repos/Ed-ITSolutions/wup-client/zipball/2ed63c4e37b3428c1c0f7853ae7646708161ba1b",
+            "reference": "2ed63c4e37b3428c1c0f7853ae7646708161ba1b",
             "shasum": ""
         },
         "require": {
             "php": "^5.3.3 || ^7.0"
         },
-        "time": "2018-06-18T10:09:44+00:00",
+        "time": "2018-06-20T12:28:08+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

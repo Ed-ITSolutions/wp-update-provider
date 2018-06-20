@@ -1,37 +1,9 @@
 <?php
-echo("Ed-IT Solutions Plugin Builder");
+require(dirname(dirname(__FILE__)) . '/vendor/autoload.php');
 
-$zip = new ZipArchive();
-$filename = './wp-update-provider.zip';
-
-$rootPath = dirname(dirname(__FILE__));
-
-if($zip->open($filename, ZipArchive::CREATE) !== true){
-  exit("Could not create {$filename}");
-}
-
-$files = new RecursiveIteratorIterator(
-  new RecursiveDirectoryIterator($rootPath),
-  RecursiveIteratorIterator::LEAVES_ONLY
+wup_build(
+  'wp-update-provider',
+  dirname(dirname(__FILE__)),
+  '6af435c747', //getenv('WUP_DEPLOY_KEY'),
+  'http://local.ed-it.solutions/wp-admin/admin-post.php'
 );
-
-foreach ($files as $name => $file){
-  // Skip directories (they would be added automatically)
-  if(!$file->isDir()){
-    // Get real and relative path for current file
-    $filePath = $file->getRealPath();
-    $relativePath = substr($filePath, strlen($rootPath) + 1);
-
-    $dirs = explode(DIRECTORY_SEPARATOR, $relativePath);
-
-    if(
-      $dirs[0] !== '.git'
-      &&
-      $dirs[0] !== '.circleci'
-    ){
-      $zip->addFile($filePath, $relativePath);
-    }    
-  }
-}
-
-$zip->close();
