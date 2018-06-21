@@ -5,5 +5,5 @@ wup_build(
   'wp-update-provider',
   dirname(dirname(__FILE__)),
   getenv('WUP_DEPLOY_KEY'),
-  'http://www.ed-it.solutions/wp-admin/admin-post.php'
+  'https://www.ed-it.solutions/wp-admin/admin-post.php'
 );

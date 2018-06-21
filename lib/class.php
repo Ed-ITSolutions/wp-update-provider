@@ -190,7 +190,7 @@ class WPUpdateProvider{
     }
 
     if(!file_exists(wp_upload_dir()['basedir'] . '/wup-releases/' . $package['slug'])){
-      $dir = $dir . '/' . $package['slug'];
+      $dir = wp_upload_dir()['basedir'] . '/wup-releases/' . $package['slug'];
       mkdir($dir);
     }
 
