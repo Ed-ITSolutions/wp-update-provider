@@ -56,6 +56,14 @@ class WUPPackagesTable extends WP_List_Table{
     return $wpdb->get_var($sql);
   }
 
+  function column_versions($item){
+    global $wpdb;
+
+    $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}wup_versions WHERE `packageId` = '{$item['id']}'";
+
+    return $wpdb->get_var($sql);
+  }
+
   function column_default($item, $column_name){
     switch($column_name){
       case 'slug':
@@ -70,6 +78,7 @@ class WUPPackagesTable extends WP_List_Table{
     $columns = [
       'name' => __('Name', 'wp-update-provider'),
       'slug' => __('Slug', 'wp-update-provider'),
+      'versions' => __('Versions', 'wp-update-provider'),
       'deployKey' => __('Deploy Key', 'wp-update-provider'),
       'installs' => __('Installs', 'wp-update-provider')
     ];

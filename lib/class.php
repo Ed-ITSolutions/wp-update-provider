@@ -13,7 +13,7 @@ class WPUpdateProvider{
     add_action('init', array($this, 'rewrites'));
     add_action('template_redirect', array($this, 'returnJson'), 1);
 
-    wup_client('plugin', 'wp-update-provider', 'http://local.ed-it.solutions/wup/wp-update-provider');
+    wup_client('plugin', 'wp-update-provider', 'https://www.ed-it.solutions/wup/wp-update-provider');
   }
 
   public function returnJson(){
@@ -32,7 +32,7 @@ class WPUpdateProvider{
       return;
     }
 
-    $slug = $wp_query->get('attachment');
+    $slug = $wp_query->get('wup_package');
 
     $package = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_packages WHERE `slug` = '{$slug}'", 'ARRAY_A');
 
@@ -73,13 +73,13 @@ class WPUpdateProvider{
       'version' => $version['version'],
       'last_updated' => $version['releaseDate'],
       'detailsUrl' => $data['header']['DetailsURI'],
-      'downloadUrl' => content_url('wup/' . $slug . '/' . $version['version'] . '.zip')
+      'downloadUrl' => content_url('uploads/wup-releases/' . $package['slug'] . '/' . $version['version'] . '.zip')
     ));
   }
 
   public function rewrites(){
     add_rewrite_tag('%wup_package%', '([^&]+)');
-    add_rewrite_rule('wup/?', 'index.php?wup_package=$matches[0]', 'top');
+    add_rewrite_rule('wup/(.*)?', 'index.php?wup_package=$matches[1]', 'top');
   }
 
   public function menus(){
