@@ -45,6 +45,24 @@ class WUPDomainsTable extends WP_List_Table{
     _e('No sites are using this package.', 'wp-update-provider');
   }
 
+  function column_domain($item){
+    $domain = '<strong>' . $item['domain'] . '</strong>';
+
+    $deleteNonce = wp_create_nonce('wup_delete_domain');
+
+    $actions = [
+      'delete' => sprintf(
+        '<a href="?page=%s&action=%s&domain=%s&_wpnonce=%s">Delete</a>',
+        esc_attr( $_REQUEST['page'] ),
+        'delete',
+        absint($item['id']),
+        $deleteNonce
+      )
+    ];
+
+    return $domain . $this->row_actions($actions);
+  }
+
   function column_default($item, $column_name){
     switch($column_name){
       case 'domain':

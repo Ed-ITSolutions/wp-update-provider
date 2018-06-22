@@ -147,6 +147,18 @@ class WPUpdateProvider{
       $wpdb->query($sql);
     }
 
+    if($_GET['action'] == 'delete'){
+      $nonce = esc_attr($_REQUEST['_wpnonce']);
+
+      if(!wp_verify_nonce($nonce, 'wup_delete_domain')){
+        $wpdb->delete(
+          "{$wpdb->prefix}wup_packages",
+          ['id' => $_GET['domain']],
+          ['%d']
+        );
+      }
+    }
+
     $package = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_packages WHERE `slug` = '{$_GET['package']}'", 'ARRAY_A');
     $version = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_versions WHERE `packageId` = '{$package['id']}' ORDER BY `id` DESC LIMIT 1", 'ARRAY_A');
 
