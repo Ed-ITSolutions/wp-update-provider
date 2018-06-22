@@ -139,6 +139,14 @@ class WPUpdateProvider{
   public function viewPackagePage(){
     global $wpdb;
 
+    if($_GET['action'] == 'newKey'){
+      $deployKey = wp_create_nonce('deploy-' . $_GET['package'] . time());
+
+      $sql = "UPDATE {$wpdb->prefix}wup_packages SET `deployKey` = '{$deployKey}' WHERE `slug` = '{$_GET['package']}'";
+
+      $wpdb->query($sql);
+    }
+
     $package = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_packages WHERE `slug` = '{$_GET['package']}'", 'ARRAY_A');
     $version = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_versions WHERE `packageId` = '{$package['id']}' ORDER BY `id` DESC LIMIT 1", 'ARRAY_A');
 

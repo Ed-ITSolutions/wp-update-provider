@@ -40,6 +40,9 @@
     Version Number: <?php echo($version['version']); ?><br ?>
     <a href="<?php echo(content_url('uploads/wup-releases/' . $package['slug'] . '/' . $version['version'] . '.zip')); ?>">Download latest ZIP</a>
   </p>
+  <h3>Deploy Key</h3>
+  <p><?php echo($package['deployKey']); ?></p>
+  <p><a href="?page=wup_package&package=<?php echo($package['slug']); ?>&action=newKey">Regenerate Key</a></p>
   <form action="" method="POST" enctype="multipart/form-data">
     Release a new Version:
     <input type="file" name="file" id="file">
