@@ -263,6 +263,10 @@ class WshWordPressPackageParser {
 			'Network' => 'Network',
 			//Site Wide Only is deprecated in favor of Network.
 			'_sitewide' => 'Site Wide Only',
+			'ImageSVG' => 'Image SVG',
+			'Image2X' => 'Image 2X',
+			'Image1X' => 'Image 1X',
+			'Image' => 'Image'
 		);
 
 		$headers = self::getFileHeaders($fileContents, $pluginHeaderNames);
