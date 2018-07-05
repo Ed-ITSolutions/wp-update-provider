@@ -16,6 +16,12 @@ class WPUpdateProvider{
     wup_client('plugin', 'wp-update-provider', 'https://www.ed-it.solutions/wup/wp-update-provider');
   }
 
+  public function log($message){
+    $log = get_option('wp_update_provider_log', array());
+    $log[] = $message;
+    update_option('wp_update_provider_log', array_slice($log, -50, 50));
+  }
+
   public function returnJson(){
     global $wp_query, $wp, $wpdb;
 
@@ -24,19 +30,22 @@ class WPUpdateProvider{
     }
 
     $headers = getallheaders();
+    $slug = $wp_query->get('wup_package');
 
     if(!isset($headers['WP_DOMAIN']) || !isset($headers['WP_VERSION'])){
+      $this->log('Request for ' . $slug . ' made without WP_DOMAIN or WP_VERSION header');
+
       wp_send_json(array(
         'error' => 'WP_DOMAIN or WP_VERSION header missing.'
       ));
       return;
     }
 
-    $slug = $wp_query->get('wup_package');
-
     $package = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_packages WHERE `slug` = '{$slug}'", 'ARRAY_A');
 
     if($package == null){
+      $this->log('Request for ' . $slug . ' from ' . $headers['WP_DOMAIN'] . ' but the package does not exist.');
+
       wp_send_json(array(
         'slug' => $slug,
         'error' => 'Slug does not match a package.'
@@ -48,6 +57,8 @@ class WPUpdateProvider{
     $version = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_versions WHERE `packageId` = '{$package['id']}' ORDER BY `id` DESC LIMIT 1", 'ARRAY_A');
 
     if($version == null){
+      $this->log('Request for ' . $slug . ' from ' . $headers['WP_DOMAIN'] . ' but the package has no versions.');
+
       wp_send_json(array(
         'slug' => $slug,
         'error' => 'No versions exist for this package'
@@ -64,6 +75,8 @@ class WPUpdateProvider{
     }else{
       $sql = "UPDATE {$wpdb->prefix}wup_domains SET `version` = '{$headers['WP_VERSION']}' WHERE `id` = '{$domain['id']}' ";
     }
+
+    $this->log('Request for ' . $slug . ' from ' . $headers['WP_DOMAIN'] . ' @ ' . $headers['WP_VERSION'] . '.');
 
     $wpdb->query($sql);
 
@@ -103,6 +116,15 @@ class WPUpdateProvider{
     );
 
     add_submenu_page(
+      'wup',
+      'Log',
+      'Log',
+      'manage_options',
+      'wup_view_log',
+      array($this, 'viewLog')
+    );
+
+    add_submenu_page(
       '',
       'View Package',
       'View Package',
@@ -110,6 +132,10 @@ class WPUpdateProvider{
       'wup_package',
       array($this, 'viewPackagePage')
     );
+  }
+
+  public function viewLog(){
+    require('pages/log.php');
   }
 
   public function mainPage(){
@@ -171,6 +197,8 @@ class WPUpdateProvider{
     $package = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_packages WHERE `deployKey` = '{$_POST['deployKey']}'", 'ARRAY_A');
 
     if(!isset($package)){
+      $this->log('Deploy attempted with invalid deploy key.');
+
       echo(json_encode(array(
         'error' => 'Invalid Deploy Key.'
       )));
@@ -178,6 +206,8 @@ class WPUpdateProvider{
     }
 
     if(!isset($_FILES['release'])){
+      $this->log('No release provided for package.');
+
       echo(json_encode(array(
         'error' => 'No release provided.'
       )));
@@ -186,6 +216,8 @@ class WPUpdateProvider{
     }
 
     if($_FILES['release']['error'] === 1){
+      $this->log('New release was over filesize');
+
       echo(json_encode(array(
         'error' => 'File is over upload_max_filesize'
       )));
@@ -196,6 +228,8 @@ class WPUpdateProvider{
     $fileType = wp_check_filetype(basename($_FILES['release']['name']));
 
     if($fileType['type'] != 'application/zip'){
+      $this->log('New release was not a zip');
+
       echo(json_encode(array(
         'error' => 'File is not a zip'
       )));
@@ -228,6 +262,8 @@ class WPUpdateProvider{
     $sql = "INSERT INTO {$wpdb->prefix}wup_versions (`packageId`, `version`, `releaseDate`, `pluginData`) VALUES ('{$package['id']}', '{$meta['header']['Version']}', NOW(), '{$pluginData}')";
 
     $wpdb->query($sql);
+
+    $this->log('New release!');
 
     echo(json_encode(array(
       'success' => 'Update received.'

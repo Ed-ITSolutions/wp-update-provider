@@ -2,7 +2,8 @@
   "name": "ed-itsolutions/wup-client",
   "description": "WordPress Update Provider client for use in plugins / themes.",
   "require": {
-    "php": "^5.3.3 || ^7.0"
+    "php": "^5.3.3 || ^7.0",
+    "composer/semver": "^1.4"
   },
   "license": "MIT",
   "authors": [

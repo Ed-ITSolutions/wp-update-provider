@@ -2,7 +2,7 @@
 /**
 * Plugin Name: WP Update Provider
 * Description: Provides an update server for WordPress plugins & themes, and manages sites that are updating.
-* Version: 0.1.0
+* Version: 0.1.1
 * Author: Ed-IT Solutions
 * Author URI: http://www.ed-itsolutions.com
 **/

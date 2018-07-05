@@ -10,9 +10,25 @@ class ComposerStaticInit8d4ec33d84e96ca49a3644165fcde344
         'c11f84ac1e6134ebee2e4052c196e99e' => __DIR__ . '/..' . '/ed-itsolutions/wup-client/wup-client.php',
     );
 
+    public static $prefixLengthsPsr4 = array (
+        'C' => 
+        array (
+            'Composer\\Semver\\' => 16,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Composer\\Semver\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/semver/src',
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8d4ec33d84e96ca49a3644165fcde344::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8d4ec33d84e96ca49a3644165fcde344::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }
