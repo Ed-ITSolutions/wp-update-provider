@@ -68,7 +68,7 @@ class WPUpdateProvider{
 
     $data = unserialize($version['pluginData']);
 
-    $domain = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_domains WHERE `domain` = '{$headers['WP_DOMAIN']}' ORDER BY `id` DESC LIMIT 1", 'ARRAY_A');
+    $domain = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_domains WHERE `domain` = '{$headers['WP_DOMAIN']}' AND `packageId` = '{$package['id']}' ORDER BY `id` DESC LIMIT 1", 'ARRAY_A');
 
     if($domain == null){
       $sql = "INSERT INTO {$wpdb->prefix}wup_domains (`packageId`, `domain`, `version`) VALUES ('{$package['id']}', '{$headers['WP_DOMAIN']}', '{$headers['WP_VERSION']}')";
