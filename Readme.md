@@ -1,5 +1,7 @@
 # WP Update Provider
 
+[![CircleCI](https://circleci.com/gh/Ed-ITSolutions/wp-update-provider.svg?style=svg)](https://circleci.com/gh/Ed-ITSolutions/wp-update-provider)
+
 WUP provides an interface in the WordPress admin panel to create and manage theme/plugins updates. From WUP you can see the current version of your package and the `site_urls` of any sites using it along with the version they are running.
 
 ## Install
