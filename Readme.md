@@ -20,4 +20,10 @@ To create a package you need to supply its name and slug. _Slug needs to match t
 
 ### Releasing a Version
 
-#### 
+#### Using the dashboard
+
+When viewing a package there is a file uploader in which you can place a ZIP file. This file will be uploaded and parsed through the same system as the CI uploader.
+
+#### Using CI
+
+WUP-Client provides a function to send [builds from your CI](https://github.com/Ed-ITSolutions/wup-client#ci).
