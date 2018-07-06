@@ -89,7 +89,7 @@ class WPUpdateProvider{
       'downloadUrl' => content_url('uploads/wup-releases/' . $package['slug'] . '/' . $version['version'] . '.zip'),
       'image_svg' => $data['header']['ImageSVG'],
       'image_2x' => $data['header']['Image2X'],
-      'image_1X' => $data['header']['Image1X'],
+      'image_1x' => $data['header']['Image1X'],
       'image_default' => $data['header']['Image']
     ));
   }

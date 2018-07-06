@@ -1,25 +1,26 @@
 <?php
-// if you change this make sure you change the class name below (0.0.1 becomes WUPClient0_0_1).
-$classVersion = "0.1.0";
-
-if(!defined('WUP_CLIENT_CLASS_VERSION')){
-  define('WUP_CLIENT_CLASS_VERSION', $classVersion);
-}else{
-  if(Composer\Semver\Comparator::greaterThan($classVersion, WUP_CLIENT_CLASS_VERSION)){
-    define('WUP_CLIENT_CLASS_VERSION', $classVersion);
-  }
-}
-
 class WUPClient{
   public function __construct($type, $slug, $url){
-    $className = 'WUPClient' . str_replace('.', '_', WUP_CLIENT_CLASS_VERSION);
+    $classes = get_declared_classes();
+    $versions = array();
+    foreach($classes as $class){
+      if(strpos($class, 'WUPClient') !== false){
+        $version = str_replace('_', '.', substr($class, 9));
+        if(strlen($version) > 0){
+          $versions[] = $version;
+        }
+      }
+    }
 
-    new $className($type, $slug, $url);
+    $sorted = Composer\Semver\Semver::rsort($versions);
+    
+    $className = 'WUPClient' . str_replace('.', '_', $sorted[0]);
+
+    new $className($type, $slug, $url); 
   }
 }
 
-
-class WUPClient0_1_0{
+class WUPClient0_1_1{
   public $url;
   public $type;
   public $slug;
@@ -114,6 +115,23 @@ class WUPClient0_1_0{
       $update->package = $state->downloadUrl;
       $update->url = $state->detailsUrl;
 
+      if(
+        isset($state->image_svg)
+        ||
+        isset($state->image_2x)
+        ||
+        isset($state->image_1x)
+        ||
+        isset($state->image_default)
+      ){
+        $update->icons = array(
+          'svg' => $state->image_svg,
+          '2x' => $state->image_2x,
+          '1x' => $state->image_1x,
+          'default' => $state->image_default
+        );
+      }
+
       return $update;
     }
   }
@@ -128,6 +146,10 @@ class WUPClient0_1_0{
       $state->wupVersion = null;
       $state->detailsUrl = '';
       $state->downloadUrl = '';
+      $state->image_svg = '';
+      $state->image_2x = '';
+      $state->image_1x = '';
+      $state->image_default = '';
     }
 
     $state->lastCheck = time();
@@ -142,9 +164,15 @@ class WUPClient0_1_0{
     update_option($this->settingName, $state);
 
     $data = $this->getWUPData($state->localVersion);
+
     $state->wupVersion = $data->version;
     $state->detailsUrl = $data->detailsUrl;
     $state->downloadUrl = $data->downloadUrl;
+    $state->image_svg = $data->image_svg;
+    $state->image_2x = $data->image_2x;
+    $state->image_1x = $data->image_1x;
+    $state->image_default = $data->image_default;
+
     update_option($this->settingName, $state);
   }
 
@@ -160,7 +188,7 @@ class WUPClient0_1_0{
   }
 
   public function getLocalThemeVersion(){
-    $theme = wp_get_theme($this->theme);
+    $theme = wp_get_theme();
 	  return $theme->get('Version');
   }
 
