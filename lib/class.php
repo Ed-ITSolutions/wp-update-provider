@@ -198,6 +198,8 @@ class WPUpdateProvider{
   public function newRelease(){
     global $wpdb;
 
+    $this->log('New release attempted.');
+
     $package = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_packages WHERE `deployKey` = '{$_POST['deployKey']}'", 'ARRAY_A');
 
     if(!isset($package)){
