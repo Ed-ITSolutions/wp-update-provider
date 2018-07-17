@@ -258,6 +258,17 @@ class WPUpdateProvider{
 
     $meta = WshWordPressPackageParser::parsePackage($_FILES['release']['tmp_name'], true);
 
+    $version = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_versions WHERE `packageId` = '{$package['id']}' AND `version` = '{$meta['header']['Version']}' ORDER BY `id` DESC LIMIT 1", 'ARRAY_A');
+    if(isset($version)){
+      $this->log('Version ' . $meta['header']['Version'] . ' already exists');
+
+      echo(json_encode(array(
+        'error' => 'Version ' . $meta['header']['Version'] . ' already exists'
+      )));
+
+      return;
+    }
+
     move_uploaded_file(
       $_FILES['release']['tmp_name'],
       wp_upload_dir()['basedir'] . '/wup-releases/' . $package['slug'] . '/' . $meta['header']['Version'] . '.zip'
