@@ -198,6 +198,8 @@ class WPUpdateProvider{
   public function newRelease(){
     global $wpdb;
 
+    $this->log('New release attempted.');
+
     $package = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_packages WHERE `deployKey` = '{$_POST['deployKey']}'", 'ARRAY_A');
 
     if(!isset($package)){
@@ -255,6 +257,17 @@ class WPUpdateProvider{
     require_once(dirname(__FILE__) . '/../vendor/wp-metadata/extension-meta.php');
 
     $meta = WshWordPressPackageParser::parsePackage($_FILES['release']['tmp_name'], true);
+
+    $version = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_versions WHERE `packageId` = '{$package['id']}' AND `version` = '{$meta['header']['Version']}' ORDER BY `id` DESC LIMIT 1", 'ARRAY_A');
+    if(isset($version)){
+      $this->log('Version ' . $meta['header']['Version'] . ' already exists');
+
+      echo(json_encode(array(
+        'error' => 'Version ' . $meta['header']['Version'] . ' already exists'
+      )));
+
+      return;
+    }
 
     move_uploaded_file(
       $_FILES['release']['tmp_name'],
