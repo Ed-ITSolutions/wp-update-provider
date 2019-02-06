@@ -13,7 +13,7 @@ class WPUpdateProvider{
     add_action('init', array($this, 'rewrites'));
     add_action('template_redirect', array($this, 'returnJson'), 1);
 
-    wup_client('plugin', 'wp-update-provider', 'https://www.ed-it.solutions/wup/wp-update-provider');
+    wup_client('plugin', 'wp-update-provider', 'https://wp.ed-it.solutions/wup/wp-update-provider');
   }
 
   public function log($message){
