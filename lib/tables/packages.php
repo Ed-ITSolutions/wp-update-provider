@@ -20,6 +20,9 @@ class WUPPackagesTable extends WP_List_Table{
     if(!empty($_REQUEST['orderby'])){
       $sql .= ' ORDER BY ' . esc_sql($_REQUEST['orderby']);
       $sql .= ! empty($_REQUEST['order']) ? ' ' . esc_sql($_REQUEST['order']) : ' ASC';
+    }else{
+      $sql .= ' ORDER BY name';
+      $sql .= ! empty($_REQUEST['order']) ? ' ' . esc_sql($_REQUEST['order']) : ' ASC';
     }
   
     $sql .= " LIMIT $per_page";
