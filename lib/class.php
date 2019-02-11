@@ -78,7 +78,7 @@ class WPUpdateProvider{
     if($domain == null){
       $sql = "INSERT INTO {$wpdb->prefix}wup_domains (`packageId`, `domain`, `version`) VALUES ('{$package['id']}', '{$headers['WP_DOMAIN']}', '{$headers['WP_VERSION']}')";
     }else{
-      $sql = "UPDATE {$wpdb->prefix}wup_domains SET `version` = '{$headers['WP_VERSION']}' WHERE `id` = '{$domain['id']}' ";
+      $sql = "UPDATE {$wpdb->prefix}wup_domains SET `version` = '{$headers['WP_VERSION']}', `lastCheckIn` = CURRENT_TIMESTAMP WHERE `id` = '{$domain['id']}' ";
     }
 
     $this->log('Request for ' . $slug . ' from ' . $headers['WP_DOMAIN'] . ' @ ' . $headers['WP_VERSION'] . '.');
