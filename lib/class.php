@@ -41,6 +41,12 @@ class WPUpdateProvider{
       return;
     }
 
+    if(isset($headers['WUP_CLIENT_VERSION'])){
+      $wup_client_version = $headers['WUP_CLIENT_VERSION'];
+    }else{
+      $wup_client_version = "< 0.1.2";
+    }
+
     $package = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_packages WHERE `slug` = '{$slug}'", 'ARRAY_A');
 
     if($package == null){
@@ -52,7 +58,6 @@ class WPUpdateProvider{
       ));
       return;
     }
-
 
     $version = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}wup_versions WHERE `packageId` = '{$package['id']}' ORDER BY `id` DESC LIMIT 1", 'ARRAY_A');
 
@@ -79,6 +84,12 @@ class WPUpdateProvider{
     $this->log('Request for ' . $slug . ' from ' . $headers['WP_DOMAIN'] . ' @ ' . $headers['WP_VERSION'] . '.');
 
     $wpdb->query($sql);
+
+    if($headers['WP_VERSION'] === $version['version']){
+      // This site is already running the latest.
+      $sql = "UPDATE {$wpdb->prefix}wup_packages SET `wup_client_version` = '{$wup_client_version}' WHERE `id` = '{$package['id']}'";
+      $wpdb->query($sql);
+    }
 
     wp_send_json(array(
       'slug' => $slug,

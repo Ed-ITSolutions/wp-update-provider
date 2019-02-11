@@ -48,7 +48,20 @@ function wup_run_migration(){
       ) ENGINE = InnoDB;',
       'post' => '0.0.4'
     ),
-    '0.0.4' => false
+    '0.0.4' => array(
+      'migration' => 'CREATE TABLE ' . $wpdb->prefix . 'wup_packages (
+        `id` INT NOT NULL AUTO_INCREMENT ,
+        `name` VARCHAR(255) NOT NULL ,
+        `slug` VARCHAR(255) NOT NULL ,
+        `deployKey` VARCHAR(64) NOT NULL ,
+        `wup_client_version` VARCHAR(10) NOT NULL DEFAULT "0.0.0" ,
+        PRIMARY KEY (`id`),
+        UNIQUE (`slug`),
+        UNIQUE (`deployKey`)
+      ) ENGINE = InnoDB;',
+      'post' => '0.0.5'
+    ),
+    '0.0.5' => false
   );
 
   $currentVersion = get_site_option('wup_db_version');
