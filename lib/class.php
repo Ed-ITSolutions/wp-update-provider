@@ -169,7 +169,7 @@ class WPUpdateProvider{
   public function viewPackagePage(){
     global $wpdb;
 
-    if($_GET['action'] == 'newKey'){
+    if(array_key_exists('action', $_GET) && $_GET['action'] == 'newKey'){
       $deployKey = wp_create_nonce('deploy-' . $_GET['package'] . time());
 
       $sql = "UPDATE {$wpdb->prefix}wup_packages SET `deployKey` = '{$deployKey}' WHERE `slug` = '{$_GET['package']}'";
@@ -177,7 +177,7 @@ class WPUpdateProvider{
       $wpdb->query($sql);
     }
 
-    if($_GET['action'] == 'delete'){
+    if(array_key_exists('action', $_GET) && $_GET['action'] == 'delete'){
       $nonce = esc_attr($_REQUEST['_wpnonce']);
 
       if(!wp_verify_nonce($nonce, 'wup_delete_domain')){
