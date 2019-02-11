@@ -285,6 +285,8 @@ class WPUpdateProvider{
       wp_upload_dir()['basedir'] . '/wup-releases/' . $package['slug'] . '/' . $meta['header']['Version'] . '.zip'
     );
 
+    copy(wp_upload_dir()['basedir'] . '/wup-releases/' . $package['slug'] . '/' . $meta['header']['Version'] . '.zip', wp_upload_dir()['basedir'] . '/wup-releases/' . $package['slug'] . '/latest.zip');
+
     $pluginData = serialize($meta);
 
     $sql = "INSERT INTO {$wpdb->prefix}wup_versions (`packageId`, `version`, `releaseDate`, `pluginData`) VALUES ('{$package['id']}', '{$meta['header']['Version']}', NOW(), '{$pluginData}')";

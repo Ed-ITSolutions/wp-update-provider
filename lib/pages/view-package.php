@@ -21,6 +21,8 @@
       wp_upload_dir()['basedir'] . '/wup-releases/' . $package['slug'] . '/' . $meta['header']['Version'] . '.zip'
     );
 
+    copy(wp_upload_dir()['basedir'] . '/wup-releases/' . $package['slug'] . '/' . $meta['header']['Version'] . '.zip', wp_upload_dir()['basedir'] . '/wup-releases/' . $package['slug'] . '/latest.zip');
+
     $pluginData = serialize($meta);
 
     $sql = "INSERT INTO {$wpdb->prefix}wup_versions (`packageId`, `version`, `releaseDate`, `pluginData`) VALUES ('{$package['id']}', '{$meta['header']['Version']}', NOW(), '{$pluginData}')";
@@ -38,7 +40,11 @@
   <h3>Current Version</h3>
   <p>
     Version Number: <?php echo($version['version']); ?><br ?>
-    <a href="<?php echo(content_url('uploads/wup-releases/' . $package['slug'] . '/' . $version['version'] . '.zip')); ?>">Download latest ZIP</a>
+    <?php if(file_exists(wp_upload_dir()['basedir'] . '/wup-releases/' . $package['slug'] . '/latest.zip')){ ?>
+      <a href="<?php echo(content_url('uploads/wup-releases/' . $package['slug'] . '/latest.zip')); ?>">Download latest ZIP</a>
+    <?php }else{ ?>
+      <a href="<?php echo(content_url('uploads/wup-releases/' . $package['slug'] . '/' . $version['version'] . '.zip')); ?>">Download latest ZIP</a>
+    <?php } ?>
   </p>
   <p>
     WUP-Client version: <?php echo($package['wup_client_version']); ?>
