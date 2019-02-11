@@ -67,6 +67,7 @@ class WUPDomainsTable extends WP_List_Table{
     switch($column_name){
       case 'domain':
       case 'version':
+      case 'lastCheckIn':
         return $item[$column_name];
       default:
         return print_r($item, true);
@@ -76,7 +77,8 @@ class WUPDomainsTable extends WP_List_Table{
   function get_columns(){
     $columns = [
       'domain' => __('Domain', 'wp-update-provider'),
-      'version' => __('Version', 'wp-update-provider')
+      'version' => __('Version', 'wp-update-provider'),
+      'lastCheckIn' => __('Last Check In', 'wp-update-provider')
     ];
   
     return $columns;

@@ -71,6 +71,7 @@ class WUPPackagesTable extends WP_List_Table{
     switch($column_name){
       case 'slug':
       case 'deployKey':
+      case 'wup_client_version':
         return $item[$column_name];
       default:
         return print_r($item, true);
@@ -83,7 +84,8 @@ class WUPPackagesTable extends WP_List_Table{
       'slug' => __('Slug', 'wp-update-provider'),
       'versions' => __('Versions', 'wp-update-provider'),
       'deployKey' => __('Deploy Key', 'wp-update-provider'),
-      'installs' => __('Installs', 'wp-update-provider')
+      'installs' => __('Installs', 'wp-update-provider'),
+      'wup_client_version' => __('WUP Client Version', 'wp-update-provider')
     ];
   
     return $columns;
